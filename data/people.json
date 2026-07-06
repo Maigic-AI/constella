@@ -1,0 +1,709 @@
+[
+  {
+    "name": "Euclid",
+    "year": -325,
+    "region": "Middle East",
+    "field": "Mathematics",
+    "note": "公理化几何体系的奠基者"
+  },
+  {
+    "name": "Archimedes",
+    "year": -287,
+    "region": "Western Europe",
+    "field": "Mathematics",
+    "note": "数学、力学与工程方法的代表"
+  },
+  {
+    "name": "Ptolemy",
+    "year": 100,
+    "region": "Middle East",
+    "field": "Physics & Astronomy",
+    "note": "古典天文学与地理学体系"
+  },
+  {
+    "name": "Hypatia",
+    "year": 355,
+    "region": "Middle East",
+    "field": "Mathematics",
+    "note": "亚历山大数学与哲学传统代表"
+  },
+  {
+    "name": "Avicenna",
+    "year": 980,
+    "region": "Middle East",
+    "field": "Life & Medicine",
+    "note": "医学、哲学与伊斯兰黄金时代"
+  },
+  {
+    "name": "Averroes",
+    "year": 1126,
+    "region": "Middle East",
+    "field": "Philosophy",
+    "note": "亚里士多德主义的重要诠释者"
+  },
+  {
+    "name": "Aquinas",
+    "year": 1225,
+    "region": "Western Europe",
+    "field": "Philosophy",
+    "note": "经院哲学与神学体系化"
+  },
+  {
+    "name": "Copernicus",
+    "year": 1473,
+    "region": "Central Europe",
+    "field": "Physics & Astronomy",
+    "note": "日心说与现代宇宙观转折"
+  },
+  {
+    "name": "Kepler",
+    "year": 1571,
+    "region": "Central Europe",
+    "field": "Physics & Astronomy",
+    "note": "行星运动定律"
+  },
+  {
+    "name": "Galileo",
+    "year": 1564,
+    "region": "Western Europe",
+    "field": "Physics & Astronomy",
+    "note": "实验科学与近代物理"
+  },
+  {
+    "name": "Bacon",
+    "year": 1561,
+    "region": "Western Europe",
+    "field": "Philosophy",
+    "note": "经验主义与科学方法"
+  },
+  {
+    "name": "Descartes",
+    "year": 1596,
+    "region": "Western Europe",
+    "field": "Philosophy",
+    "note": "理性主义、解析几何与方法论"
+  },
+  {
+    "name": "Pascal",
+    "year": 1623,
+    "region": "Western Europe",
+    "field": "Mathematics",
+    "note": "概率、计算机械与哲学"
+  },
+  {
+    "name": "Fermat",
+    "year": 1607,
+    "region": "Western Europe",
+    "field": "Mathematics",
+    "note": "数论与解析几何"
+  },
+  {
+    "name": "Huygens",
+    "year": 1629,
+    "region": "Western Europe",
+    "field": "Physics & Astronomy",
+    "note": "波动理论、钟表与天文学"
+  },
+  {
+    "name": "Leibniz",
+    "year": 1646,
+    "region": "Central Europe",
+    "field": "Mathematics",
+    "note": "微积分、逻辑与通用符号思想"
+  },
+  {
+    "name": "Newton",
+    "year": 1643,
+    "region": "Western Europe",
+    "field": "Physics & Astronomy",
+    "note": "经典力学与微积分"
+  },
+  {
+    "name": "Halley",
+    "year": 1656,
+    "region": "Western Europe",
+    "field": "Physics & Astronomy",
+    "note": "彗星轨道与观测天文学"
+  },
+  {
+    "name": "Euler",
+    "year": 1707,
+    "region": "Central Europe",
+    "field": "Mathematics",
+    "note": "分析、图论与现代数学符号"
+  },
+  {
+    "name": "Lagrange",
+    "year": 1736,
+    "region": "Western Europe",
+    "field": "Mathematics",
+    "note": "分析力学与变分法"
+  },
+  {
+    "name": "Laplace",
+    "year": 1749,
+    "region": "Western Europe",
+    "field": "Mathematics",
+    "note": "概率、天体力学与决定论"
+  },
+  {
+    "name": "Volta",
+    "year": 1745,
+    "region": "Western Europe",
+    "field": "Engineering & Invention",
+    "note": "电池与电学实验"
+  },
+  {
+    "name": "Gauss",
+    "year": 1777,
+    "region": "Central Europe",
+    "field": "Mathematics",
+    "note": "数论、几何、统计与测量"
+  },
+  {
+    "name": "Ampere",
+    "year": 1775,
+    "region": "Western Europe",
+    "field": "Physics & Astronomy",
+    "note": "电动力学奠基"
+  },
+  {
+    "name": "Faraday",
+    "year": 1791,
+    "region": "Western Europe",
+    "field": "Physics & Astronomy",
+    "note": "电磁感应与实验物理"
+  },
+  {
+    "name": "Darwin",
+    "year": 1809,
+    "region": "Western Europe",
+    "field": "Life & Medicine",
+    "note": "自然选择与进化论"
+  },
+  {
+    "name": "Lovelace",
+    "year": 1815,
+    "region": "Western Europe",
+    "field": "Computing & Logic",
+    "note": "早期程序设计思想"
+  },
+  {
+    "name": "Boole",
+    "year": 1815,
+    "region": "Western Europe",
+    "field": "Computing & Logic",
+    "note": "布尔代数与逻辑计算"
+  },
+  {
+    "name": "Pasteur",
+    "year": 1822,
+    "region": "Western Europe",
+    "field": "Life & Medicine",
+    "note": "微生物学、疫苗与巴氏消毒"
+  },
+  {
+    "name": "Maxwell",
+    "year": 1831,
+    "region": "Western Europe",
+    "field": "Physics & Astronomy",
+    "note": "电磁理论统一"
+  },
+  {
+    "name": "Mendel",
+    "year": 1822,
+    "region": "Central Europe",
+    "field": "Life & Medicine",
+    "note": "遗传规律"
+  },
+  {
+    "name": "Curie",
+    "year": 1867,
+    "region": "Eastern Europe",
+    "field": "Physics & Astronomy",
+    "note": "放射性研究"
+  },
+  {
+    "name": "Planck",
+    "year": 1858,
+    "region": "Central Europe",
+    "field": "Physics & Astronomy",
+    "note": "量子理论起点"
+  },
+  {
+    "name": "Tesla",
+    "year": 1856,
+    "region": "Central Europe",
+    "field": "Engineering & Invention",
+    "note": "交流电系统与电气工程"
+  },
+  {
+    "name": "Poincare",
+    "year": 1854,
+    "region": "Western Europe",
+    "field": "Mathematics",
+    "note": "拓扑、动力系统与科学哲学"
+  },
+  {
+    "name": "Noether",
+    "year": 1882,
+    "region": "Central Europe",
+    "field": "Mathematics",
+    "note": "抽象代数与对称性定理"
+  },
+  {
+    "name": "Hilbert",
+    "year": 1862,
+    "region": "Central Europe",
+    "field": "Mathematics",
+    "note": "公理化、数学基础与问题纲领"
+  },
+  {
+    "name": "Einstein",
+    "year": 1879,
+    "region": "Central Europe",
+    "field": "Physics & Astronomy",
+    "note": "相对论与现代物理"
+  },
+  {
+    "name": "Raman",
+    "year": 1888,
+    "region": "South Asia",
+    "field": "Physics & Astronomy",
+    "note": "拉曼效应与光散射"
+  },
+  {
+    "name": "Bohr",
+    "year": 1885,
+    "region": "Northern Europe",
+    "field": "Physics & Astronomy",
+    "note": "原子模型与量子解释"
+  },
+  {
+    "name": "Turing",
+    "year": 1912,
+    "region": "Western Europe",
+    "field": "Computing & Logic",
+    "note": "可计算性、密码学与计算机"
+  },
+  {
+    "name": "Hubble",
+    "year": 1889,
+    "region": "North America",
+    "field": "Physics & Astronomy",
+    "note": "星系与宇宙膨胀观测"
+  },
+  {
+    "name": "Feynman",
+    "year": 1918,
+    "region": "North America",
+    "field": "Physics & Astronomy",
+    "note": "量子电动力学与问题解决"
+  },
+  {
+    "name": "Franklin",
+    "year": 1920,
+    "region": "Western Europe",
+    "field": "Life & Medicine",
+    "note": "DNA结构研究中的关键衍射证据"
+  },
+  {
+    "name": "McClintock",
+    "year": 1902,
+    "region": "North America",
+    "field": "Life & Medicine",
+    "note": "转座子与遗传学"
+  },
+  {
+    "name": "Meitner",
+    "year": 1878,
+    "region": "Central Europe",
+    "field": "Physics & Astronomy",
+    "note": "核裂变解释与核物理"
+  },
+  {
+    "name": "Herschel",
+    "year": 1750,
+    "region": "Western Europe",
+    "field": "Physics & Astronomy",
+    "note": "天文学观测传统；具体指代存在歧义"
+  },
+  {
+    "name": "Linnaeus",
+    "year": 1707,
+    "region": "Northern Europe",
+    "field": "Life & Medicine",
+    "note": "现代生物分类法"
+  },
+  {
+    "name": "Wegener",
+    "year": 1880,
+    "region": "Central Europe",
+    "field": "Chemistry & Earth",
+    "note": "大陆漂移学说"
+  },
+  {
+    "name": "Chandrasekhar",
+    "year": 1910,
+    "region": "South Asia",
+    "field": "Physics & Astronomy",
+    "note": "恒星结构与质量极限"
+  },
+  {
+    "name": "Sagan",
+    "year": 1934,
+    "region": "North America",
+    "field": "Physics & Astronomy",
+    "note": "行星科学与科学传播"
+  },
+  {
+    "name": "Goodall",
+    "year": 1934,
+    "region": "Western Europe",
+    "field": "Life & Medicine",
+    "note": "灵长类行为研究"
+  },
+  {
+    "name": "Carson",
+    "year": 1907,
+    "region": "North America",
+    "field": "Life & Medicine",
+    "note": "生态环境写作与现代环保运动"
+  },
+  {
+    "name": "Carver",
+    "year": 1864,
+    "region": "North America",
+    "field": "Life & Medicine",
+    "note": "农业科学与作物研究"
+  },
+  {
+    "name": "Socrates",
+    "year": -470,
+    "region": "Western Europe",
+    "field": "Philosophy",
+    "note": "诘问、伦理与批判性对话"
+  },
+  {
+    "name": "Plato",
+    "year": -428,
+    "region": "Western Europe",
+    "field": "Philosophy",
+    "note": "理念论、政治哲学与学院传统"
+  },
+  {
+    "name": "Aristotle",
+    "year": -384,
+    "region": "Western Europe",
+    "field": "Philosophy",
+    "note": "逻辑、分类与自然哲学"
+  },
+  {
+    "name": "Epicurus",
+    "year": -341,
+    "region": "Western Europe",
+    "field": "Philosophy",
+    "note": "幸福、原子论与伦理"
+  },
+  {
+    "name": "Cicero",
+    "year": -106,
+    "region": "Western Europe",
+    "field": "Philosophy",
+    "note": "罗马修辞、政治与伦理思想"
+  },
+  {
+    "name": "Confucius",
+    "year": -551,
+    "region": "East Asia",
+    "field": "Philosophy",
+    "note": "伦理、教育与政治秩序"
+  },
+  {
+    "name": "Mencius",
+    "year": -372,
+    "region": "East Asia",
+    "field": "Philosophy",
+    "note": "儒家人性论与仁政"
+  },
+  {
+    "name": "Zeno",
+    "year": -334,
+    "region": "Western Europe",
+    "field": "Philosophy",
+    "note": "斯多葛传统；也可能与同名哲学家混淆"
+  },
+  {
+    "name": "Locke",
+    "year": 1632,
+    "region": "Western Europe",
+    "field": "Philosophy",
+    "note": "经验主义与政治自由"
+  },
+  {
+    "name": "Hume",
+    "year": 1711,
+    "region": "Western Europe",
+    "field": "Philosophy",
+    "note": "怀疑论、经验主义与因果问题"
+  },
+  {
+    "name": "Kant",
+    "year": 1724,
+    "region": "Central Europe",
+    "field": "Philosophy",
+    "note": "认识论、伦理与批判哲学"
+  },
+  {
+    "name": "Hegel",
+    "year": 1770,
+    "region": "Central Europe",
+    "field": "Philosophy",
+    "note": "辩证法与历史哲学"
+  },
+  {
+    "name": "Kierkegaard",
+    "year": 1813,
+    "region": "Northern Europe",
+    "field": "Philosophy",
+    "note": "存在主义先驱"
+  },
+  {
+    "name": "Mill",
+    "year": 1806,
+    "region": "Western Europe",
+    "field": "Social & Political",
+    "note": "功利主义、自由与政治经济"
+  },
+  {
+    "name": "Nietzsche",
+    "year": 1844,
+    "region": "Central Europe",
+    "field": "Philosophy",
+    "note": "价值批判与现代性反思"
+  },
+  {
+    "name": "Peirce",
+    "year": 1839,
+    "region": "North America",
+    "field": "Philosophy",
+    "note": "实用主义、符号学与逻辑"
+  },
+  {
+    "name": "James",
+    "year": 1842,
+    "region": "North America",
+    "field": "Philosophy",
+    "note": "实用主义与心理学"
+  },
+  {
+    "name": "Dewey",
+    "year": 1859,
+    "region": "North America",
+    "field": "Philosophy",
+    "note": "实用主义、教育与民主"
+  },
+  {
+    "name": "Russell",
+    "year": 1872,
+    "region": "Western Europe",
+    "field": "Computing & Logic",
+    "note": "分析哲学、逻辑与数学基础"
+  },
+  {
+    "name": "Popper",
+    "year": 1902,
+    "region": "Central Europe",
+    "field": "Philosophy",
+    "note": "可证伪性与开放社会"
+  },
+  {
+    "name": "Sartre",
+    "year": 1905,
+    "region": "Western Europe",
+    "field": "Philosophy",
+    "note": "存在主义与自由"
+  },
+  {
+    "name": "Beauvoir",
+    "year": 1908,
+    "region": "Western Europe",
+    "field": "Social & Political",
+    "note": "存在主义、女性主义与伦理"
+  },
+  {
+    "name": "Arendt",
+    "year": 1906,
+    "region": "Central Europe",
+    "field": "Social & Political",
+    "note": "政治行动、极权主义与公共领域"
+  },
+  {
+    "name": "Rawls",
+    "year": 1921,
+    "region": "North America",
+    "field": "Social & Political",
+    "note": "正义论与政治自由主义"
+  },
+  {
+    "name": "Singer",
+    "year": 1946,
+    "region": "Oceania",
+    "field": "Social & Political",
+    "note": "应用伦理与动物伦理"
+  },
+  {
+    "name": "Anscombe",
+    "year": 1919,
+    "region": "Western Europe",
+    "field": "Philosophy",
+    "note": "行动理论与现代伦理"
+  },
+  {
+    "name": "Parfit",
+    "year": 1942,
+    "region": "Western Europe",
+    "field": "Philosophy",
+    "note": "人格同一性与规范伦理"
+  },
+  {
+    "name": "Kuhn",
+    "year": 1922,
+    "region": "North America",
+    "field": "Philosophy",
+    "note": "科学革命与范式转换"
+  },
+  {
+    "name": "Boyle",
+    "year": 1627,
+    "region": "Western Europe",
+    "field": "Chemistry & Earth",
+    "note": "近代化学与气体定律"
+  },
+  {
+    "name": "Hooke",
+    "year": 1635,
+    "region": "Western Europe",
+    "field": "Engineering & Invention",
+    "note": "显微观察、弹性定律与仪器"
+  },
+  {
+    "name": "Harvey",
+    "year": 1578,
+    "region": "Western Europe",
+    "field": "Life & Medicine",
+    "note": "血液循环研究"
+  },
+  {
+    "name": "Dalton",
+    "year": 1766,
+    "region": "Western Europe",
+    "field": "Chemistry & Earth",
+    "note": "现代原子论"
+  },
+  {
+    "name": "Ohm",
+    "year": 1789,
+    "region": "Central Europe",
+    "field": "Physics & Astronomy",
+    "note": "电阻定律"
+  },
+  {
+    "name": "Helmholtz",
+    "year": 1821,
+    "region": "Central Europe",
+    "field": "Physics & Astronomy",
+    "note": "能量守恒、生理学与声学"
+  },
+  {
+    "name": "Gibbs",
+    "year": 1839,
+    "region": "North America",
+    "field": "Physics & Astronomy",
+    "note": "热力学与统计力学"
+  },
+  {
+    "name": "Lorentz",
+    "year": 1853,
+    "region": "Western Europe",
+    "field": "Physics & Astronomy",
+    "note": "电磁理论与洛伦兹变换"
+  },
+  {
+    "name": "Schrodinger",
+    "year": 1887,
+    "region": "Central Europe",
+    "field": "Physics & Astronomy",
+    "note": "波动力学"
+  },
+  {
+    "name": "Heisenberg",
+    "year": 1901,
+    "region": "Central Europe",
+    "field": "Physics & Astronomy",
+    "note": "矩阵力学与不确定性原理"
+  },
+  {
+    "name": "Pauli",
+    "year": 1900,
+    "region": "Central Europe",
+    "field": "Physics & Astronomy",
+    "note": "泡利不相容原理"
+  },
+  {
+    "name": "Dirac",
+    "year": 1902,
+    "region": "Western Europe",
+    "field": "Physics & Astronomy",
+    "note": "量子理论与相对论性方程"
+  },
+  {
+    "name": "Bernoulli",
+    "year": 1700,
+    "region": "Central Europe",
+    "field": "Mathematics",
+    "note": "概率与流体力学家族传统"
+  },
+  {
+    "name": "Godel",
+    "year": 1906,
+    "region": "Central Europe",
+    "field": "Computing & Logic",
+    "note": "不完备定理与形式系统边界"
+  },
+  {
+    "name": "Nash",
+    "year": 1928,
+    "region": "North America",
+    "field": "Mathematics",
+    "note": "博弈论与纳什均衡"
+  },
+  {
+    "name": "Banach",
+    "year": 1892,
+    "region": "Eastern Europe",
+    "field": "Mathematics",
+    "note": "泛函分析与巴拿赫空间"
+  },
+  {
+    "name": "Ramanujan",
+    "year": 1887,
+    "region": "South Asia",
+    "field": "Mathematics",
+    "note": "数论与非凡数学直觉"
+  },
+  {
+    "name": "Erdos",
+    "year": 1913,
+    "region": "Central Europe",
+    "field": "Mathematics",
+    "note": "组合数学与协作式数学文化"
+  },
+  {
+    "name": "Jason",
+    "year": null,
+    "region": "Unknown",
+    "field": "Unknown",
+    "note": "名单中的异常普通人名，可能是彩蛋、占位或神话指代"
+  }
+]

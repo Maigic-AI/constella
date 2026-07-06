@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>群星志 Constella</title>
+<style>
+:root {
+  --bg:#0d0f10; --panel:#151819; --panel2:#101314; --text:#f3f5f4;
+  --muted:#8b9390; --line:#2a302e; --accent:#c8ff3d; --soft:#202624;
+}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif}
+button,input,select{font:inherit} .app{min-height:100vh;padding:22px}
+header{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin-bottom:18px}
+.brand{display:flex;gap:13px;align-items:center} .mark{width:38px;height:38px;border:1px solid #59605d;border-radius:11px;display:grid;place-items:center;background:#111}
+.mark:before{content:"";width:17px;height:17px;border:2px solid var(--accent);border-radius:50%;box-shadow:7px 0 0 -5px var(--bg),-7px 0 0 -5px var(--bg)}
+h1{font-size:20px;margin:0 0 4px;letter-spacing:-.02em} .sub{font-size:12px;color:var(--muted)}
+.meta{font:12px ui-monospace,SFMono-Regular,Menlo,monospace;color:#9da5a2;text-align:right;line-height:1.7}
+.header-actions{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.upload-btn{cursor:pointer;display:inline-block;text-align:center} .upload-btn:hover{background:#2a302d}
+#restoreBtn{font-size:11px;color:var(--muted);cursor:pointer;padding:6px 10px} #restoreBtn:hover{background:#2a302d;color:var(--text)}
+.toolbar{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:12px}
+.control{background:var(--panel);border:1px solid var(--line);border-radius:9px;color:var(--text);padding:9px 11px}
+input.control{min-width:200px} select.control{cursor:pointer}
+.toggle{display:flex;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:3px}
+.toggle button{border:0;background:transparent;color:var(--muted);padding:6px 12px;border-radius:6px;cursor:pointer}
+.toggle button.active{background:#2a302d;color:var(--text)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:12px;min-height:980px}
+.canvas-stack{display:flex;flex-direction:column;gap:10px;min-width:0}.canvas-wrap{position:relative;background:linear-gradient(180deg,#111415,#0d0f10);border:1px solid var(--line);border-radius:13px;overflow:hidden;cursor:grab}.canvas-wrap.dragging{cursor:grabbing}
+#chart{width:100%;height:980px;display:block} .side{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:18px;display:flex;flex-direction:column}
+.kicker{font:11px ui-monospace,monospace;color:var(--accent);letter-spacing:.12em;text-transform:uppercase}
+.person-name{font-size:30px;letter-spacing:-.04em;margin:8px 0 6px}
+.person-meta{font-size:13px;color:var(--muted);margin-bottom:18px} .person-note{font-size:15px;line-height:1.7}
+.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto}
+.stat{padding:12px;background:var(--soft);border-radius:9px} .stat strong{display:block;font-size:20px} .stat span{font-size:11px;color:var(--muted)}
+.legend-panel{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:10px 12px}.legend-title{font:10px ui-monospace,monospace;color:var(--muted);letter-spacing:.12em;margin-bottom:7px}.legend{display:flex;flex-wrap:wrap;gap:7px}
+.legend span{font-size:10px;color:#b5bbb8;padding:5px 7px;background:#111c;border:1px solid var(--line);border-radius:99px}.zoom-controls{position:absolute;z-index:4;right:12px;top:12px;display:flex;gap:5px;background:#0d1010dd;border:1px solid var(--line);padding:4px;border-radius:9px;backdrop-filter:blur(8px)}.zoom-controls button{border:0;background:transparent;color:var(--text);min-width:32px;height:28px;border-radius:6px;cursor:pointer}.zoom-controls button:hover{background:#2a302d}.zoom-controls #zoomReset{min-width:52px;font-size:11px;color:var(--muted)}
+.tip{position:absolute;pointer-events:none;background:#090b0bf2;border:1px solid #3a413e;border-radius:8px;padding:8px 10px;font-size:12px;opacity:0;transform:translate(-50%,-115%);white-space:nowrap}
+.axis{fill:#6f7774;font-size:10px} .label{fill:#a9b0ad;font-size:11px} .grid{stroke:#242a28;stroke-width:1}
+.dot{cursor:pointer;transition:.18s} .dot:hover{filter:brightness(1.45)} .dot.dim{opacity:.08} .dot.selected{stroke:#fff;stroke-width:2}
+.name-label{font-size:9px;fill:#d8dddb;pointer-events:none}.name-label.entering{animation:labelFadeIn .7s ease both}
+footer{padding:12px 2px 0;color:#606865;font-size:11px}
+@media(max-width:900px){.layout{grid-template-columns:1fr} .side{min-height:280px} #chart{height:860px} header{flex-direction:column} .meta{text-align:left}}
+
+.canvas-wrap::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.7;
+  background-image:
+    radial-gradient(circle at 12% 18%,rgba(255,255,255,.70) 0 1px,transparent 1.7px),
+    radial-gradient(circle at 72% 22%,rgba(200,255,61,.55) 0 1px,transparent 1.8px),
+    radial-gradient(circle at 34% 68%,rgba(255,255,255,.45) 0 1px,transparent 1.7px),
+    radial-gradient(circle at 88% 76%,rgba(112,214,255,.5) 0 1px,transparent 1.8px),
+    radial-gradient(circle at 54% 44%,rgba(255,255,255,.35) 0 1px,transparent 1.5px);
+  background-size:190px 190px,260px 260px,230px 230px,310px 310px,170px 170px;
+  animation:starDrift 28s linear infinite;
+}
+.canvas-wrap::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 55%,rgba(200,255,61,.035),transparent 42%),
+    radial-gradient(circle at 20% 20%,rgba(112,214,255,.025),transparent 35%);
+}
+@keyframes starDrift{
+  from{background-position:0 0,0 0,0 0,0 0,0 0}
+  to{background-position:40px 20px,-30px 50px,25px -35px,-45px -20px,20px 45px}
+}
+@keyframes starPulse{
+  0%,100%{opacity:.72;filter:drop-shadow(0 0 1px currentColor)}
+  50%{opacity:1;filter:drop-shadow(0 0 7px currentColor)}
+}
+@keyframes selectedGlow{
+  0%,100%{filter:drop-shadow(0 0 5px rgba(200,255,61,.7))}
+  50%{filter:drop-shadow(0 0 14px rgba(200,255,61,1))}
+}
+@keyframes labelFadeIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+@keyframes panelReveal{
+  from{opacity:.45;transform:translateY(5px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.dot.star-node{animation:starPulse var(--pulse-duration,3.2s) ease-in-out infinite;animation-delay:var(--pulse-delay,0s);transform-box:fill-box;transform-origin:center}
+.dot.selected{animation:selectedGlow 1.8s ease-in-out infinite}
+.side.reveal{animation:panelReveal .45s ease-out}
+.tour-toggle.active{background:var(--accent);color:#0b0d0c;border-color:var(--accent);font-weight:700}
+.tour-interval{min-width:82px}
+.star-ray{stroke:rgba(200,255,61,.72);stroke-width:1;pointer-events:none}
+.star-ring{fill:none;stroke:rgba(200,255,61,.55);stroke-width:1;pointer-events:none;animation:selectedGlow 1.8s ease-in-out infinite}
+
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand"><div class="mark"></div><div><h1>群星志 Constella</h1><div class="sub">把重要的人,放进一张会发光的时间星图</div></div></div>
+  <div class="meta">SAMPLE · 101 颗星<br>FROM · OPENAI/CODEX agent_names</div>
+  <div class="header-actions">
+    <label class="control upload-btn">⬆ 导入数据
+      <input type="file" accept=".json,application/json" id="uploadInput" hidden>
+    </label>
+    <button class="control" id="restoreBtn" hidden>恢复内置</button>
+  </div>
+</header>
+<div class="toolbar">
+  <input id="search" class="control" placeholder="搜索人物，如 Turing / 孔子">
+  <select id="region" class="control"><option value="">全部地区</option></select>
+  <select id="field" class="control"><option value="">全部专业</option></select>
+  <div class="toggle"><button class="active" data-view="timeline">编年史</button><button data-view="atlas">三维投影视图</button></div><button id="tourToggle" class="control tour-toggle">✦ 随机介绍：关闭</button><select id="tourInterval" class="control tour-interval" title="切换间隔"><option value="3000">3 秒</option><option value="5000" selected>5 秒</option><option value="8000">8 秒</option></select>
+</div>
+<div class="layout">
+  <div class="canvas-stack"><div class="canvas-wrap"><div class="zoom-controls"><button id="zoomOut" title="缩小">−</button><button id="zoomReset" title="重置">100%</button><button id="zoomIn" title="放大">＋</button></div><svg id="chart"></svg><div class="tip" id="tip"></div></div><div class="legend-panel"><div class="legend-title">REGION</div><div class="legend" id="legend"></div></div></div>
+  <aside class="side">
+    <div class="kicker">Selected agent</div>
+    <div class="person-name" id="pname">Turing</div>
+    <div class="person-meta" id="pmeta">1912 · Western Europe · Computing & Logic</div>
+    <div class="person-note" id="pnote">可计算性、密码学与计算机</div>
+    <div class="statgrid">
+      <div class="stat"><strong id="visibleCount">101</strong><span>当前显示</span></div>
+      <div class="stat"><strong id="eraCount">26</strong><span>公元前人物</span></div>
+      <div class="stat"><strong id="regionCount">10</strong><span>地区分类</span></div>
+      <div class="stat"><strong id="fieldCount">9</strong><span>专业分类</span></div>
+    </div>
+  </aside>
+</div>
+<footer>时间轴采用分段非线性刻度，为近现代高密度人物分配更多空间；三维视图使用等距投影展示时代、专业与地区。星图模式通过节点闪烁与随机导览营造“人类群星”效果；节点动画使用全局时间相位，重绘后仍可连续呼吸；人物名称会以流动星名的形式定期随机切换；只有新进入随机组的名字才播放淡入动画。地区分类采用简化的现代地理分组。Franklin、Herschel、Zeno、Jason 等名字存在指代歧义。</footer>
+</div>
+<script>
+// 数据来源: data/people.json,由 scripts/build.js 内联到此处。
+// 修改人物请编辑 data/people.json 后重新运行 `node scripts/build.js`。
+let data=__PEOPLE_DATA__;
+const builtinData=data.slice();
+const BUILTIN_FIELDS=["Mathematics", "Physics & Astronomy", "Philosophy", "Life & Medicine", "Computing & Logic", "Chemistry & Earth", "Social & Political", "Engineering & Invention", "Unknown"];
+const colors={
+"Western Europe":"#70d6ff","Central Europe":"#ff8fab",
+"Eastern Europe":"#cdb4db","Middle East":"#ffd166","South Asia":"#ff9f1c","East Asia":"#7ae582",
+"North America":"#b8c0ff","Northern Europe":"#90f1ef","Oceania":"#f4a261","Unknown":"#777"
+};
+// 为上传数据中未知地区动态生成颜色 (HSL 固定饱和度/亮度,避免哈希出纯黑纯白)
+function regionColor(name){
+  if(colors[name])return colors[name];
+  const h=nameHash(name)%360;
+  return `hsl(${h},65%,60%)`;
+}
+// 从当前 data 动态推导专业/地区列表,优先按内置顺序,新值按字母序追加,"Unknown" 始终末尾
+function deriveList(builtin,values){
+  const set=new Set(values);
+  const known=builtin.filter(v=>set.has(v)&&v!=="Unknown");
+  const extra=[...set].filter(v=>!builtin.includes(v)&&v!=="Unknown").sort((a,b)=>a.localeCompare(b));
+  const hasUnknown=set.has("Unknown");
+  return [...known,...extra,...(hasUnknown?["Unknown"]:[])];
+}
+function deriveFields(){return deriveList(BUILTIN_FIELDS,data.map(d=>d.field))}
+function deriveRegions(){return deriveList(BUILTIN_REGIONS,data.map(d=>d.region))}
+const svg=document.querySelector("#chart"), tip=document.querySelector("#tip");
+let view="timeline", selected="Turing";
+let zoom=1, panX=0, isDragging=false, dragStartX=0, dragStartPan=0;
+let tourEnabled=false, tourTimer=null, lastTourName=null;
+let ambientLabelNames=new Set(), ambientEnteringNames=new Set(), ambientLabelTimer=null;
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs={}){const x=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>x.setAttribute(k,v));return x}
+function fmtYear(y){if(y===null)return "年代未知";return y<0?`公元前${Math.abs(y)}年`:`${y}年`}
+function filtered(){const q=search.value.trim().toLowerCase(),r=region.value,f=field.value;return data.filter(d=>(!q||d.name.toLowerCase().includes(q)||d.note.includes(q))&&(!r||d.region===r)&&(!f||d.field===f))}
+
+function ambientLabelCount(){
+  const width=svg.clientWidth||900;
+  if(width<700)return 3;
+  if(width<1100)return 5;
+  return 7;
+}
+
+function refreshAmbientLabels(){
+  const previous=ambientLabelNames;
+  const pool=filtered().filter(d=>d.name!==selected);
+  const count=Math.min(ambientLabelCount(),pool.length);
+  const next=new Set();
+  const candidates=[...pool];
+
+  while(next.size<count && candidates.length){
+    const index=Math.floor(Math.random()*candidates.length);
+    next.add(candidates[index].name);
+    candidates.splice(index,1);
+  }
+
+  ambientEnteringNames=new Set([...next].filter(name=>!previous.has(name)));
+  ambientLabelNames=next;
+  draw();
+
+  // After the entrance animation starts, clear the marker without redrawing.
+  window.setTimeout(()=>ambientEnteringNames.clear(),800);
+}
+
+function startAmbientLabels(){
+  if(ambientLabelTimer)clearInterval(ambientLabelTimer);
+  refreshAmbientLabels();
+  ambientLabelTimer=setInterval(refreshAmbientLabels,4500);
+}
+
+function choose(d){selected=d.name;pname.textContent=d.name;pmeta.textContent=`${fmtYear(d.year)} · ${d.region} · ${d.field}`;pnote.textContent=d.note;const side=document.querySelector(".side");side.classList.remove("reveal");void side.offsetWidth;side.classList.add("reveal");draw()}
+
+const BUILTIN_REGIONS=["Western Europe","Central Europe","Eastern Europe","Northern Europe","Middle East","South Asia","East Asia","North America","Oceania","Unknown"];
+
+function segmentedTime(year){
+  const segments=[
+    [-600,0,0.10],[0,1200,0.10],[1200,1600,0.12],
+    [1600,1800,0.18],[1800,1900,0.20],
+    [1900,1950,0.14],[1950,2050,0.16]
+  ];
+  const y=year??2020;
+  let acc=0;
+  for(const [a,b,weight] of segments){
+    if(y>=a && y<=b){
+      return acc+Math.max(0,Math.min(1,(y-a)/(b-a)))*weight;
+    }
+    acc+=weight;
+  }
+  return y<segments[0][0]?0:1;
+}
+
+function projectIso(year,fieldIndex,regionIndex,fieldCount,regionCount,w,h){
+  const left=120,right=150,top=65,bottom=95;
+  const plotW=w-left-right, plotH=h-top-bottom;
+  const depthX=110, depthY=64;
+
+  const tx=segmentedTime(year);
+  const fy=fieldIndex/Math.max(1,fieldCount-1);
+  const rz=regionIndex/Math.max(1,regionCount-1);
+
+  return [
+    left+tx*(plotW-depthX)+rz*depthX,
+    top+fy*(plotH-depthY)+(1-rz)*depthY
+  ];
+}
+
+function nameHash(text){
+  let h=2166136261;
+  for(let i=0;i<text.length;i++){
+    h^=text.charCodeAt(i);
+    h=Math.imul(h,16777619);
+  }
+  return h>>>0;
+}
+
+function pulseStyle(name){
+  const h=nameHash(name);
+  const duration=2.6+(h%1800)/1000;
+  const offset=((h>>>8)%1000)/1000*duration;
+  const globalTime=performance.now()/1000;
+  const phase=(globalTime+offset)%duration;
+  return `--pulse-duration:${duration.toFixed(3)}s;--pulse-delay:-${phase.toFixed(3)}s`;
+}
+
+function draw(){
+ const w=svg.clientWidth||900,h=svg.clientHeight||980;svg.setAttribute("viewBox",`0 0 ${w} ${h}`);svg.innerHTML="";
+ const defs=el("defs");
+ const clip=el("clipPath",{id:"plotClip"});
+ clip.append(el("rect",{x:128,y:0,width:Math.max(0,w-156),height:h}));
+ defs.append(clip);
+ svg.append(defs);
+
+ const fd=filtered();visibleCount.textContent=fd.length;
+ const activeFields=deriveFields();
+ const activeRegions=deriveRegions();
+ const regionList=activeRegions;
+ if(view==="timeline"){
+   const left=128,right=28,top=44,bottom=72;
+   const plotGroup=el("g",{"clip-path":"url(#plotClip)"});svg.append(plotGroup);
+   const row=(h-top-bottom)/activeFields.length;
+
+   // 分段非线性时间轴：为近现代高密度区间分配更多横向空间
+   const segments=[
+     [-600,0,0.10],
+     [0,1200,0.10],
+     [1200,1600,0.12],
+     [1600,1800,0.18],
+     [1800,1900,0.20],
+     [1900,1950,0.14],
+     [1950,2050,0.16]
+   ];
+   const plotW=w-left-right;
+   const cumulative=[];
+   let acc=0;
+   for(const s of segments){cumulative.push(acc);acc+=s[2]}
+   const baseX=year=>{
+     const y=year??2020;
+     let idx=segments.findIndex(s=>y>=s[0]&&y<=s[1]);
+     if(idx<0) idx=y<segments[0][0]?0:segments.length-1;
+     const [a,b,weight]=segments[idx];
+     const local=Math.max(0,Math.min(1,(y-a)/(b-a)));
+     return left+plotW*(cumulative[idx]+local*weight);
+   };
+   const x=year=>left+(baseX(year)-left)*zoom+panX;
+
+   const ticks=[-500,0,500,1000,1200,1400,1600,1700,1800,1850,1900,1925,1950,1975,2000,2025];
+   ticks.forEach(y=>{
+     const line=el("line",{x1:x(y),x2:x(y),y1:top,y2:h-bottom,class:"grid"});
+     plotGroup.append(line);
+     const t=el("text",{x:x(y)+3,y:h-35,class:"axis"});
+     t.textContent=y<0?`${-y} BCE`:y;
+     svg.append(t)
+   });
+
+   activeFields.forEach((f,i)=>{
+     const yy=top+row*(i+.5);
+     const t=el("text",{x:12,y:yy+3,class:"label"});
+     t.textContent=f;
+     svg.append(t);
+     plotGroup.append(el("line",{x1:left,x2:w-right,y1:yy,y2:yy,class:"grid"}))
+   });
+
+   // 同一专业轨道内进行简单碰撞避让
+   const minGap=20,laneGap=16;
+   const groups={};
+   fd.forEach(d=>{
+     const fi=activeFields.indexOf(d.field);
+     (groups[fi]??=[]).push({d,xx:x(d.year)})
+   });
+
+   Object.entries(groups).forEach(([fiStr,items])=>{
+     const fi=Number(fiStr);
+     const base=top+row*(fi+.5);
+     items.sort((a,b)=>a.xx-b.xx);
+     const laneLast=[];
+
+     items.forEach(item=>{
+       let lane=0;
+       while(laneLast[lane]!==undefined && item.xx-laneLast[lane]<minGap) lane++;
+       laneLast[lane]=item.xx;
+
+       const laneOffset=lane===0?0:Math.ceil(lane/2)*laneGap*(lane%2===1?-1:1);
+       const maxOffset=Math.max(0,row/2-12);
+       const yy=base+Math.max(-maxOffset,Math.min(maxOffset,laneOffset));
+       const d=item.d,xx=item.xx;
+
+       // 扩大隐形点击热区，视觉点保持简洁
+       const hit=el("circle",{cx:xx,cy:yy,r:12,fill:"transparent",class:"dot"});
+       bind(hit,d);
+       plotGroup.append(hit);
+
+       if(d.name===selected){
+         const ring=el("circle",{cx:xx,cy:yy,r:13,class:"star-ring"});
+         plotGroup.append(ring);
+         [[-18,0,18,0],[0,-18,0,18],[-13,-13,13,13],[-13,13,13,-13]].forEach(([x1,y1,x2,y2])=>{
+           plotGroup.append(el("line",{x1:xx+x1,y1:yy+y1,x2:xx+x2,y2:yy+y2,class:"star-ray"}))
+         })
+       }
+       const c=el("circle",{cx:xx,cy:yy,r:d.name===selected?7:5.5,fill:regionColor(d.region),class:`dot star-node ${d.name===selected?"selected":""}`,style:pulseStyle(d.name)});
+       bind(c,d);
+       plotGroup.append(c);
+
+       if(d.name===selected||ambientLabelNames.has(d.name)){
+         const t=el("text",{x:xx+8,y:yy-8,class:`name-label ${ambientEnteringNames.has(d.name)?"entering":""}`});
+         t.textContent=d.name;
+         plotGroup.append(t)
+       }
+     })
+   });
+ } else {
+   const left=120,right=150,top=65,bottom=95;
+   const depthX=110,depthY=64;
+
+   // Discipline axis and diagonal guide rails.
+   activeFields.forEach((f,i)=>{
+     const p0=projectIso(-600,i,0,activeFields.length,activeRegions.length,w,h);
+     const p1=projectIso(-600,i,activeRegions.length-1,activeFields.length,activeRegions.length,w,h);
+     svg.append(el("line",{x1:p0[0],y1:p0[1],x2:p1[0],y2:p1[1],class:"grid"}));
+
+     const label=el("text",{x:10,y:p0[1]+4,class:"label"});
+     label.textContent=f;
+     svg.append(label);
+   });
+
+   // Time grid.
+   const timeTicks=[-500,0,1200,1600,1800,1900,1950,2000];
+   timeTicks.forEach(year=>{
+     const p0=projectIso(year,0,0,activeFields.length,activeRegions.length,w,h);
+     const p1=projectIso(year,activeFields.length-1,0,activeFields.length,activeRegions.length,w,h);
+     const p2=projectIso(year,activeFields.length-1,activeRegions.length-1,activeFields.length,activeRegions.length,w,h);
+
+     svg.append(el("line",{x1:p0[0],y1:p0[1],x2:p1[0],y2:p1[1],class:"grid"}));
+     svg.append(el("line",{x1:p1[0],y1:p1[1],x2:p2[0],y2:p2[1],class:"grid"}));
+
+     const label=el("text",{x:p1[0]-10,y:h-34,class:"axis"});
+     label.textContent=year<0?`${-year} BCE`:year;
+     svg.append(label);
+   });
+
+   // Region depth rails and labels.
+   activeRegions.forEach((regionName,i)=>{
+     const p0=projectIso(-600,activeFields.length-1,i,activeFields.length,activeRegions.length,w,h);
+     const p1=projectIso(2050,activeFields.length-1,i,activeFields.length,activeRegions.length,w,h);
+     svg.append(el("line",{x1:p0[0],y1:p0[1],x2:p1[0],y2:p1[1],class:"grid"}));
+
+     const label=el("text",{x:p1[0]+7,y:p1[1]+4,class:"axis"});
+     label.textContent=regionName;
+     svg.append(label);
+   });
+
+   [["TIME →",w-88,h-15],["DISCIPLINE ↓",10,28],["REGION ↗",w-100,32]].forEach(([text,x,y])=>{
+     const label=el("text",{x,y,class:"axis"});
+     label.textContent=text;
+     svg.append(label)
+   });
+
+   // Points retain constant size; only their coordinates are projected.
+   fd.forEach((d,index)=>{
+     const fi=activeFields.indexOf(d.field);
+     const ri=Math.max(0,activeRegions.indexOf(d.region));
+     let [xx,yy]=projectIso(d.year??2020,fi,ri,activeFields.length,activeRegions.length,w,h);
+
+     // Stable micro-jitter to reduce exact overlaps.
+     yy+=(((index*17)%7)-3)*1.5;
+
+     const hit=el("circle",{cx:xx,cy:yy,r:12,fill:"transparent",class:"dot"});
+     bind(hit,d);
+     svg.append(hit);
+
+     if(d.name===selected){
+       svg.append(el("circle",{cx:xx,cy:yy,r:13,class:"star-ring"}));
+       [[-18,0,18,0],[0,-18,0,18],[-13,-13,13,13],[-13,13,13,-13]].forEach(([x1,y1,x2,y2])=>{
+         svg.append(el("line",{x1:xx+x1,y1:yy+y1,x2:xx+x2,y2:yy+y2,class:"star-ray"}))
+       })
+     }
+     const point=el("circle",{
+       cx:xx,cy:yy,
+       r:d.name===selected?7:5.5,
+       fill:regionColor(d.region),
+       class:`dot star-node ${d.name===selected?"selected":""}`,
+       style:pulseStyle(d.name),
+       opacity:.95
+     });
+     bind(point,d);
+     svg.append(point);
+
+     if(d.name===selected||ambientLabelNames.has(d.name)){
+       const label=el("text",{x:xx+8,y:yy-8,class:`name-label ${ambientEnteringNames.has(d.name)?"entering":""}`});
+       label.textContent=d.name;
+       svg.append(label)
+     }
+   });
+ }
+}
+function bind(node,d){
+ node.addEventListener("mouseenter",e=>{tip.style.opacity=1;tip.innerHTML=`<b>${d.name}</b><br>${fmtYear(d.year)} · ${d.field}`;tip.style.left=e.offsetX+"px";tip.style.top=e.offsetY+"px"});
+ node.addEventListener("mouseleave",()=>tip.style.opacity=0);node.addEventListener("click",()=>{if(tourEnabled)stopTour();choose(d)});
+}
+search.oninput=region.onchange=field.onchange=()=>{refreshAmbientLabels()};
+document.querySelectorAll(".toggle button").forEach(b=>b.onclick=()=>{document.querySelectorAll(".toggle button").forEach(x=>x.classList.remove("active"));b.classList.add("active");view=b.dataset.view;draw()});
+function rebuildLegend(){
+  const regions=deriveRegions();
+  legend.innerHTML=regions.map(k=>`<span><i style="display:inline-block;width:7px;height:7px;border-radius:50%;background:${regionColor(k)};margin-right:5px"></i>${k}</span>`).join("");
+}
+function rebuildFilters(){
+  const keepRegion=region.value, keepField=field.value;
+  region.innerHTML='<option value="">全部地区</option>';
+  field.innerHTML='<option value="">全部专业</option>';
+  deriveRegions().forEach(r=>{const o=document.createElement("option");o.textContent=r;if(r===keepRegion)o.selected=true;region.appendChild(o)});
+  deriveFields().forEach(f=>{const o=document.createElement("option");o.textContent=f;if(f===keepField)o.selected=true;field.appendChild(o)});
+}
+rebuildLegend();
+rebuildFilters();
+function rebuildStats(){
+  eraCount.textContent=data.filter(d=>d.year!==null&&d.year<0).length;
+  regionCount.textContent=new Set(data.map(d=>d.region)).size;
+  fieldCount.textContent=new Set(data.map(d=>d.field)).size;
+}
+rebuildStats();
+
+
+function tourPool(){
+  const pool=filtered();
+  return pool.length?pool:data;
+}
+function pickRandomPerson(){
+  const pool=tourPool();
+  if(!pool.length)return;
+  let next=pool[Math.floor(Math.random()*pool.length)];
+  if(pool.length>1){
+    let guard=0;
+    while(next.name===lastTourName && guard<12){
+      next=pool[Math.floor(Math.random()*pool.length)];
+      guard++;
+    }
+  }
+  lastTourName=next.name;
+  choose(next);
+}
+function startTour(){
+  stopTour();
+  tourEnabled=true;
+  tourToggle.classList.add("active");
+  tourToggle.textContent="✦ 随机介绍：开启";
+  pickRandomPerson();
+  tourTimer=setInterval(pickRandomPerson,Number(tourInterval.value));
+}
+function stopTour(){
+  tourEnabled=false;
+  if(tourTimer){clearInterval(tourTimer);tourTimer=null}
+  tourToggle.classList.remove("active");
+  tourToggle.textContent="✦ 随机介绍：关闭";
+}
+tourToggle.onclick=()=>tourEnabled?stopTour():startTour();
+tourInterval.onchange=()=>{if(tourEnabled)startTour()};
+
+function clampPan(){
+  const w=svg.clientWidth||900;
+  const left=128,right=28;
+  const plotW=w-left-right;
+  const minPan=Math.min(0,plotW-plotW*zoom);
+  panX=Math.max(minPan,Math.min(0,panX));
+}
+function applyZoom(nextZoom,anchorX=(svg.clientWidth||900)/2){
+  const old=zoom;
+  const left=128;
+  zoom=Math.max(1,Math.min(5,nextZoom));
+  panX=(anchorX-left)-((anchorX-left)-panX)*(zoom/old);
+  clampPan();
+  zoomReset.textContent=Math.round(zoom*100)+"%";
+  draw();
+}
+zoomIn.onclick=()=>applyZoom(zoom*1.25);
+zoomOut.onclick=()=>applyZoom(zoom/1.25);
+zoomReset.onclick=()=>{zoom=1;panX=0;zoomReset.textContent="100%";draw()};
+
+svg.addEventListener("wheel",e=>{
+  if(view!=="timeline") return;
+  e.preventDefault();
+  const rect=svg.getBoundingClientRect();
+  const anchor=e.clientX-rect.left;
+  applyZoom(zoom*(e.deltaY<0?1.15:1/1.15),anchor);
+},{passive:false});
+
+svg.addEventListener("mousedown",e=>{
+  if(view!=="timeline"||zoom<=1) return;
+  isDragging=true;dragStartX=e.clientX;dragStartPan=panX;
+  document.querySelector(".canvas-wrap").classList.add("dragging");
+});
+window.addEventListener("mousemove",e=>{
+  if(!isDragging)return;
+  panX=dragStartPan+(e.clientX-dragStartX);
+  clampPan();draw();
+});
+window.addEventListener("mouseup",()=>{
+  isDragging=false;
+  document.querySelector(".canvas-wrap").classList.remove("dragging");
+});
+
+window.addEventListener("resize",()=>{clampPan();refreshAmbientLabels()});draw();startAmbientLabels();
+
+// ===== 数据导入 / 恢复内置 =====
+const uploadInput=document.querySelector("#uploadInput");
+const restoreBtn=document.querySelector("#restoreBtn");
+
+function validatePeople(arr){
+  if(!Array.isArray(arr))return {valid:false,error:"顶层必须是数组,而非对象。请检查你的 JSON 是否被包裹在 {...} 中。"};
+  if(arr.length===0)return {valid:false,error:"数组为空,请至少包含 1 条记录。"};
+  const required=["name","year","region","field","note"];
+  for(let i=0;i<arr.length;i++){
+    const p=arr[i];
+    if(typeof p!=="object"||p===null)return {valid:false,error:`第 ${i+1} 条不是对象。`};
+    for(const k of required){
+      if(!(k in p))return {valid:false,error:`第 ${i+1} 条记录缺少字段 "${k}"。`};
+    }
+    if(typeof p.name!=="string"||p.name.length===0)return {valid:false,error:`第 ${i+1} 条记录的 name 必须是非空字符串。`};
+    if(p.year!==null&&(typeof p.year!=="number"||!Number.isInteger(p.year)))return {valid:false,error:`第 ${i+1} 条记录的 year 必须是整数或 null (当前:${JSON.stringify(p.year)})。`};
+    if(typeof p.region!=="string"||p.region.length===0)return {valid:false,error:`第 ${i+1} 条记录的 region 必须是非空字符串。`};
+    if(typeof p.field!=="string"||p.field.length===0)return {valid:false,error:`第 ${i+1} 条记录的 field 必须是非空字符串。`};
+    if(typeof p.note!=="string")return {valid:false,error:`第 ${i+1} 条记录的 note 必须是字符串。`};
+    const extra=Object.keys(p).filter(k=>!required.includes(k));
+    if(extra.length)return {valid:false,error:`第 ${i+1} 条记录包含未知字段 "${extra.join(', ')}"。允许字段仅限 ${required.join(', ')}。`};
+  }
+  const names=arr.map(p=>p.name);
+  const seen=new Set(),dupes=[];
+  for(const n of names){if(seen.has(n)&&!dupes.includes(n))dupes.push(n);seen.add(n)}
+  if(dupes.length)return {valid:false,error:`name 必须全局唯一,以下名称重复:${dupes.join(', ')}。`};
+  return {valid:true};
+}
+
+function onDataChanged(){
+  zoom=1;panX=0;zoomReset.textContent="100%";
+  selected=data[0]?data[0].name:null;
+  if(selected){choose(data[0])}else{draw()}
+  rebuildLegend();
+  rebuildFilters();
+  rebuildStats();
+  refreshAmbientLabels();
+  startAmbientLabels();
+}
+
+uploadInput.onchange=()=>{
+  const file=uploadInput.files&&uploadInput.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    let parsed;
+    try{parsed=JSON.parse(reader.result)}
+    catch(e){alert("JSON 解析失败:"+e.message);uploadInput.value="";return}
+    const v=validatePeople(parsed);
+    if(!v.valid){alert("导入失败:"+v.error);uploadInput.value="";return}
+    data=parsed;
+    onDataChanged();
+    restoreBtn.hidden=false;
+  };
+  reader.onerror=()=>{alert("读取文件失败,请重试。");uploadInput.value=""};
+  reader.readAsText(file);
+};
+
+restoreBtn.onclick=()=>{
+  data=builtinData.slice();
+  onDataChanged();
+  restoreBtn.hidden=true;
+};
+</script>
+</body></html>

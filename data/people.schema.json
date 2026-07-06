@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://constella.app/data/people.schema.json",
+  "title": "Constella People Dataset",
+  "description": "群星志人物数据集。顶层是一个 JSON 数组,每个元素代表一位人物。前端会用 name 作为选中态主键、year 决定时间轴位置、region 决定颜色与轨道、field 决定纵向专业轨道、note 显示在侧边栏。",
+  "type": "array",
+  "minItems": 1,
+  "items": {
+    "type": "object",
+    "required": ["name", "year", "region", "field", "note"],
+    "additionalProperties": false,
+    "properties": {
+      "name": {
+        "type": "string",
+        "minLength": 1,
+        "description": "人物名称。在同一数据集内必须全局唯一,前端用此字段作为节点选中态的主键。"
+      },
+      "year": {
+        "type": ["integer", "null"],
+        "minimum": -3000,
+        "maximum": 2100,
+        "description": "出生年份。负数表示公元前(如 -325 = 公元前 325 年);null 表示年代未知,前端会把该节点放到时间轴近现代末段。",
+        "$comment": "范围 -3000~2100 是软限制,超出可能导致时间轴渲染异常。"
+      },
+      "region": {
+        "type": "string",
+        "minLength": 1,
+        "description": "地区分类。采用简化的现代地理分组,主要用于帮助用户理解分布,而非严格历史国籍。",
+        "$comment": "下列 examples 是内置数据集的推荐写法,前端为这些地区预设了颜色。自定义数据集可使用任意地区名(如 'Africa'、'家族-父系'、'精灵族'),前端会用哈希函数动态生成颜色。",
+        "examples": [
+          "Western Europe",
+          "Central Europe",
+          "Eastern Europe",
+          "Northern Europe",
+          "Middle East",
+          "South Asia",
+          "East Asia",
+          "North America",
+          "Oceania",
+          "Unknown"
+        ]
+      },
+      "field": {
+        "type": "string",
+        "minLength": 1,
+        "description": "专业方向。决定人物在时间轴上的纵向轨道。",
+        "$comment": "下列 examples 是内置数据集的推荐写法。自定义数据集可使用任意专业名(如 'Literature'、'Music'、'血脉'),前端会动态分配轨道。",
+        "examples": [
+          "Mathematics",
+          "Physics & Astronomy",
+          "Philosophy",
+          "Life & Medicine",
+          "Computing & Logic",
+          "Chemistry & Earth",
+          "Social & Political",
+          "Engineering & Invention",
+          "Unknown"
+        ]
+      },
+      "note": {
+        "type": "string",
+        "minLength": 1,
+        "description": "一句话简介,建议中文、30 字以内。会显示在右侧侧边栏。"
+      }
+    }
+  }
+}

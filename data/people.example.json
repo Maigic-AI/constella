@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Confucius",
+    "year": -551,
+    "region": "East Asia",
+    "field": "Philosophy",
+    "note": "伦理、教育与政治秩序"
+  },
+  {
+    "name": "Avicenna",
+    "year": 980,
+    "region": "Middle East",
+    "field": "Life & Medicine",
+    "note": "医学、哲学与伊斯兰黄金时代"
+  },
+  {
+    "name": "Curie",
+    "year": 1867,
+    "region": "Eastern Europe",
+    "field": "Physics & Astronomy",
+    "note": "放射性研究"
+  },
+  {
+    "name": "Hinton",
+    "year": 1947,
+    "region": "North America",
+    "field": "Computing & Logic",
+    "note": "深度学习与反向传播的奠基者"
+  },
+  {
+    "name": "Mystery",
+    "year": null,
+    "region": "Unknown",
+    "field": "Unknown",
+    "note": "年代与身份未知的占位人物"
+  }
+]

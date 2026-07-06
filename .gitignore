@@ -1,0 +1,11 @@
+# Node
+node_modules/
+
+# 构建产物(由 scripts/build.js 从 index.template.html 生成)
+dist/
+
+# 本地验证 / 调试文件
+test-*.json
+
+# 旧 .git 备份(重置历史时遗留)
+.git.backup-*
